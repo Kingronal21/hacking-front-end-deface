@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>hacked by Kingronal 21</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:#000;
+      color:#a7ff9b;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    .matrix{
+      position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.85));
+      z-index:0;pointer-events:none;
+    }
+    canvas{width:100%;height:100%;display:block}
+
+    .panel{
+      position:relative;
+      z-index:2;
+      max-width:980px;
+      width:92%;
+      padding:40px;
+      border-radius:12px;
+      background:rgba(0,0,0,0.45);
+      box-shadow:0 8px 30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
+      border:1px solid rgba(0,255,128,0.06);
+      backdrop-filter: blur(6px);
+    }
+
+    h1{
+      font-size:clamp(28px,6vw,64px);
+      letter-spacing:2px;
+      line-height:1;
+      color:#7eff8b;
+      text-shadow:0 1px 0 #000, 0 0 18px rgba(0,255,128,0.12);
+      margin-bottom:8px;
+      display:flex;align-items:center;gap:12px;
+    }
+
+    .tagline{
+      color:#9affb8;
+      font-size:14px;
+      opacity:.85;
+      margin-bottom:18px;
+    }
+
+    .glitch{
+      position:relative;
+      display:inline-block;
+      font-weight:700;
+    }
+    .glitch::before, .glitch::after{
+      content:attr(data-text);
+      position:absolute;left:0;top:0;
+      width:100%;overflow:hidden;
+      clip-path:polygon(0 0,100% 0,100% 45%,0 45%);
+    }
+    .glitch::before{
+      transform:translate(2px,-2px);
+      color:rgba(255,0,128,0.75);
+      mix-blend-mode:screen;
+      animation:glitch-anim 2.5s infinite linear alternate-reverse;
+    }
+    .glitch::after{
+      transform:translate(-2px,2px);
+      color:rgba(0,200,255,0.6);
+      mix-blend-mode:screen;
+      animation:glitch-anim-2 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim{
+      0%{clip-path:polygon(0 0,100% 0,100% 10%,0 10%)}
+      20%{clip-path:polygon(0 10%,100% 10%,100% 30%,0 30%)}
+      40%{clip-path:polygon(0 30%,100% 30%,100% 50%,0 50%)}
+      60%{clip-path:polygon(0 50%,100% 50%,100% 70%,0 70%)}
+      80%{clip-path:polygon(0 70%,100% 70%,100% 90%,0 90%)}
+      100%{clip-path:polygon(0 90%,100% 90%,100% 100%,0 100%)}
+    }
+    @keyframes glitch-anim-2{
+      0%{clip-path:polygon(0 0,100% 0,100% 8%,0 8%)}
+      25%{clip-path:polygon(0 12%,100% 12%,100% 28%,0 28%)}
+      50%{clip-path:polygon(0 28%,100% 28%,100% 52%,0 52%)}
+      75%{clip-path:polygon(0 52%,100% 52%,100% 76%,0 76%)}
+      100%{clip-path:polygon(0 76%,100% 76%,100% 100%,0 100%)}
+    }
+
+    .meta{
+      display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:16px;
+    }
+    .meta .pill{
+      padding:8px 12px;border-radius:999px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.03);font-size:13px;color:#c7ffd4
+    }
+
+    .console{
+      margin-top:18px;
+      background:rgba(0,0,0,0.55);
+      padding:14px;border-radius:8px;font-size:13px;color:#bfffc9;
+      line-height:1.6;outline:1px solid rgba(0,255,128,0.04);
+      max-height:200px;overflow:auto;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    .footer{
+      margin-top:18px;font-size:12px;color:#83ff9a;opacity:0.8
+    }
+
+    @media (max-width:520px){
+      .panel{padding:20px}
+      .console{font-size:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="matrix"><canvas id="c"></canvas></div>
+  <main class="panel" role="main">
+    <h1><span class="glitch" data-text="HACkED BY KiNgRonAl 21">HACkED BY KiNgRonAl 21</span></h1>
+    <div class="tagline">Anonimus · deface aestetik · digital grafiti</div>
+
+    <div class="meta">
+      <div class="pill">time: <span id="time">--:--:--</span></div>
+      <div class="pill">system: linux-ish</div>
+      <div class="pill">mood: caos</div>
+    </div>
+
+    <div class="console" id="console">Initilizing...
+    </div>
+
+    <div class="footer">Dont panic—this is demo page. — Kingronal21</div>
+  </main>
+
+  <script>
+    function pad(n){return n.toString().padStart(2,'0')}
+    function tick(){
+      const t=new Date();
+      document.getElementById('time').textContent = pad(t.getHours())+ ':'+ pad(t.getMinutes())+ ':'+ pad(t.getSeconds());
+    }
+    setInterval(tick,1000); tick();
+
+    const lines=[
+      '>> root@server:~$ whoami',
+      '>> Kingronal_21',
+      '>> echo "you have been pwned"',
+      '>> writing message to /var/www/html/index.html',
+      '>> upload complete',
+      '>> enjoy the aesthetic'
+    ];
+    const con=document.getElementById('console');
+    let li=0;
+    function typeLine(){
+      if(li>=lines.length) return;
+      const line=lines[li++];
+      let i=0; const el=document.createElement('div'); el.textContent=''; con.appendChild(el); con.scrollTop = con.scrollHeight;
+      const id=setInterval(()=>{
+        el.textContent += line.charAt(i++);
+        con.scrollTop = con.scrollHeight;
+        if(i>line.length){clearInterval(id); setTimeout(typeLine,500)}
+      },25);
+    }
+    setTimeout(typeLine,700);
+
+    const canvas=document.getElementById('c');
+    const ctx=canvas.getContext('2d');
+    let W,H,cols,size,ypos;
+    function resize(){
+      W=canvas.width = innerWidth; H=canvas.height=innerHeight; size=18; cols=Math.floor(W/size)+1; ypos=new Array(cols).fill(0);
+    }
+    window.addEventListener('resize',resize); resize();
+
+    function loop(){
+      ctx.fillStyle='rgba(0,0,0,0.15)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='rgba(120,255,140,0.7)'; ctx.font = size+'px monospace';
+      for(let i=0;i<cols;i++){
+        const char = String.fromCharCode(0x30A0 + Math.random()*96);
+        ctx.fillText(char, i*size, ypos[i]*size);
+        if(ypos[i]*size > H && Math.random()>0.975) ypos[i]=0; else ypos[i]++;
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+  </script>
+</body>
+</html>
